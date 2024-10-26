@@ -82,7 +82,6 @@ class FavoritePage extends StatelessWidget {
         final response = await http.get(Uri.parse(apiUrl));
 
         if (response.statusCode == 200) {
-          // 응답 데이터를 UTF-8로 디코딩합니다.
           final decodedData = json.decode(utf8.decode(response.bodyBytes));
           print('Decoded Data: $decodedData'); // 디버깅을 위한 응답 전체 출력
           var item = decodedData['response']?['body']?['items']?['item'];
@@ -90,7 +89,7 @@ class FavoritePage extends StatelessWidget {
           if (item is Map<String, dynamic>) {
             print(
                 'Item found for contentId: $contentId, title: ${item['title']}'); // 디버깅용 로그
-            // 단일 가게 정보를 리스트에 추가합니다.
+
             result.add({
               'contentid': contentId,
               'title': item['title'] ?? '제목 없음',
@@ -169,11 +168,12 @@ class FavoritePage extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => DetailPage(
-                collectionName: 'restaurant',
-                name: '',
-                address: '',
-                subname: '',
-                id: ''),
+              collectionName: 'restaurant',
+              name: store['title'] ?? '',
+              address: store['addr1'] ?? '',
+              subname: '',
+              id: store['contentid'].toString(),
+            ),
           ),
         );
       },
