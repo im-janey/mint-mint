@@ -6,7 +6,6 @@ import 'package:flutter_application_1/screens/map/display.dart';
 import 'package:flutter_application_1/screens/map/food.dart';
 import 'package:flutter_application_1/screens/map/park.dart';
 import 'package:flutter_application_1/screens/map/play.dart';
-
 import 'drawer.dart';
 import 'search.dart';
 
