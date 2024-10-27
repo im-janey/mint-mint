@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/favoriate.dart';
-import 'package:flutter_application_1/screens/profile.dart';
+import 'package:flutter_application_1/screens/detail/favoriate.dart';
+import 'package:flutter_application_1/screens/detail/profile.dart';
 
 class Menu extends StatefulWidget {
   const Menu({super.key});

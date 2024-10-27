@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/banner1.dart';
+import 'package:flutter_application_1/screens/home/banner1.dart';
+
 import 'package:flutter_application_1/screens/map/all.dart';
 import 'package:flutter_application_1/screens/map/cafe.dart';
 import 'package:flutter_application_1/screens/map/display.dart';

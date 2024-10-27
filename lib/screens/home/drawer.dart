@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/favoriate.dart';
-import 'package:flutter_application_1/screens/login.dart';
-import 'package:flutter_application_1/screens/profile.dart';
+import 'package:flutter_application_1/screens/detail/favoriate.dart';
+import 'package:flutter_application_1/screens/detail/profile.dart';
+import 'package:flutter_application_1/screens/intro/login.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});

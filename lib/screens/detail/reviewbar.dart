@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-// 리뷰 작성 위젯
 class Rating extends StatefulWidget {
   final String collectionName;
   final String id;
@@ -36,26 +35,22 @@ class _RatingState extends State<Rating> {
     _loadUserNickname();
   }
 
-  // 평점 초기화
   void _initializeRatings() {
     widget.ratingFields.forEach((key, _) => _ratings[key] = 0);
   }
 
-  // 사용자 프로필 이미지 로드
   Future<void> _loadUserProfile() async {
     var userData =
         await _firestore.collection('users').doc(_auth.currentUser?.uid).get();
     setState(() => _profileImageUrl = userData['image'] ?? '');
   }
 
-  // 사용자 닉네임 로드
   Future<void> _loadUserNickname() async {
     var userData =
         await _firestore.collection('users').doc(_auth.currentUser?.uid).get();
     setState(() => _nickname = userData['nickname'] ?? '');
   }
 
-  // 리뷰 제출
   void _submitReview() async {
     if (_ratings.values.every((rating) => rating > 0)) {
       if (await _hasAlreadyReviewed()) {
@@ -83,7 +78,6 @@ class _RatingState extends State<Rating> {
     }
   }
 
-  // 이미 리뷰를 작성했는지 확인
   Future<bool> _hasAlreadyReviewed() async {
     var review = await _firestore
         .collection(widget.collectionName)
@@ -95,13 +89,11 @@ class _RatingState extends State<Rating> {
     return review.docs.isNotEmpty;
   }
 
-  // 스낵바 표시
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
   }
 
-  // 폼 초기화
   void _resetForm() {
     setState(() {
       _ratings.updateAll((key, value) => 0);
@@ -155,7 +147,6 @@ class _RatingState extends State<Rating> {
     );
   }
 
-  // 프로필 이미지 위젯
   Widget _buildProfileImage() {
     return CircleAvatar(
       radius: 30,
@@ -165,7 +156,6 @@ class _RatingState extends State<Rating> {
     );
   }
 
-  // 평점 필드 위젯 리스트
   List<Widget> _buildRatingFields() {
     return widget.ratingFields.entries.map((entry) {
       return Padding(
@@ -202,7 +192,6 @@ class _RatingState extends State<Rating> {
     }).toList();
   }
 
-  // 리뷰 텍스트 필드 위젯
   Widget _buildReviewTextField() {
     return Column(
       children: [
@@ -230,7 +219,6 @@ class _RatingState extends State<Rating> {
   }
 }
 
-// 리뷰 목록 위젯
 class ReviewList extends StatelessWidget {
   final String collectionName;
   final String id;
@@ -300,7 +288,18 @@ class ReviewList extends StatelessWidget {
                     child: userImageUrl.isEmpty ? Icon(Icons.person) : null,
                   ),
                   SizedBox(width: 10),
-                  Text(userName, style: TextStyle(fontSize: 16)),
+                  Expanded(
+                    child: Text(
+                      userName,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      await doc.reference.delete();
+                    },
+                    icon: Icon(Icons.delete_outline),
+                  ),
                 ],
               ),
               SizedBox(height: 4),
@@ -355,7 +354,6 @@ class ReviewList extends StatelessWidget {
   }
 }
 
-// 리뷰 페이지 위젯
 class ReviewPage extends StatefulWidget {
   final String collectionName;
   final String id;
@@ -429,6 +427,7 @@ class _ReviewPageState extends State<ReviewPage> {
         SizedBox(height: 10),
         Expanded(
           child: ReviewList(
+            //작성화면
             collectionName: widget.collectionName,
             id: widget.id,
           ),
