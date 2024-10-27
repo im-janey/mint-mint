@@ -118,26 +118,20 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.person_2_outlined),
               title: Text('나의 리뷰'),
               onTap: () {
-                // Handle My Page tap
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.location_on_outlined),
               title: Text('최근 본 장소'),
               onTap: () {
-                // Handle Settings tap
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.settings_outlined),
               title: Text('환경설정'),
               onTap: () {
-                // Handle Settings tap
                 Navigator.pop(context);
               },
             ),

@@ -118,65 +118,68 @@ class FavoritePage extends StatelessWidget {
   }
 
   Widget _buildStoreCard(BuildContext context, Map<String, dynamic> store) {
-    return GestureDetector(
-      child: Card(
-        margin: const EdgeInsets.all(13),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: double.infinity,
-              height: 150,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8.0),
-                  topRight: Radius.circular(8.0),
-                ),
-                image: store['firstimage'] != ''
-                    ? DecorationImage(
-                        image: NetworkImage(store['firstimage']),
-                        fit: BoxFit.cover,
-                      )
-                    : null,
-              ),
-              child: store['firstimage'] == ''
-                  ? Center(
-                      child: Icon(Icons.store, size: 50, color: Colors.grey))
-                  : null,
-            ),
-            SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    store['title'],
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+    return Column(
+      children: [
+        GestureDetector(
+          child: Card(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AspectRatio(
+                  aspectRatio: 1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8.0),
+                        topRight: Radius.circular(8.0),
+                        bottomLeft: Radius.circular(8.0),
+                        bottomRight: Radius.circular(8.0),
+                      ),
+                      image: store['firstimage'] != ''
+                          ? DecorationImage(
+                              image: NetworkImage(store['firstimage']),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
                     ),
+                    child: store['firstimage'] == ''
+                        ? Center(
+                            child: Icon(Icons.store,
+                                size: 100, color: Colors.grey))
+                        : null,
                   ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetailPage(
-              collectionName: 'restaurant',
-              name: store['title'] ?? '',
-              address: store['addr1'] ?? '',
-              subname: '',
-              id: store['contentid'].toString(),
+                ),
+              ],
             ),
           ),
-        );
-      },
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailPage(
+                  collectionName: 'restaurant',
+                  name: store['title'] ?? '',
+                  address: store['addr1'] ?? '',
+                  subname: '',
+                  id: store['contentid'].toString(),
+                ),
+              ),
+            );
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            store['title'] ?? '제목 없음',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -15,7 +15,7 @@ class _ProfileState extends State<Profile> {
   final TextEditingController _nicknameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   String _profileImageUrl = '';
-  
+
   @override
   void initState() {
     super.initState();
@@ -36,7 +36,6 @@ class _ProfileState extends State<Profile> {
     }
   }
 
-  // 사용자 데이터 업데이트
   Future<void> _updateUserData() async {
     User? user = _auth.currentUser;
     if (user != null) {
@@ -106,7 +105,8 @@ class _ProfileState extends State<Profile> {
                     MaterialPageRoute(
                         builder: (context) => ChangePasswordPage())),
                 child: Text('비밀번호 변경',
-                    style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 17)),
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor, fontSize: 17)),
               ),
             ),
           ],
@@ -115,7 +115,6 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  // 텍스트 필드 위젯 생성
   Widget _buildTextField(String label, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
@@ -126,7 +125,8 @@ class _ProfileState extends State<Profile> {
           border: const OutlineInputBorder(),
           hintStyle: const TextStyle(color: Color(0xFFA7A7A7), fontSize: 16),
           focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 1.5),
+            borderSide:
+                BorderSide(color: Theme.of(context).primaryColor, width: 1.5),
           ),
           floatingLabelStyle: TextStyle(color: Theme.of(context).primaryColor),
           enabledBorder: const UnderlineInputBorder(
@@ -145,9 +145,11 @@ class ChangePasswordPage extends StatefulWidget {
 }
 
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
-  final TextEditingController _currentPasswordController = TextEditingController();
+  final TextEditingController _currentPasswordController =
+      TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   Future<void> _changePassword() async {
     if (_newPasswordController.text != _confirmPasswordController.text) {
@@ -223,7 +225,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           border: const OutlineInputBorder(),
           hintStyle: const TextStyle(color: Color(0xFFA7A7A7), fontSize: 16),
           focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 1.5),
+            borderSide:
+                BorderSide(color: Theme.of(context).primaryColor, width: 1.5),
           ),
           floatingLabelStyle: TextStyle(color: Theme.of(context).primaryColor),
           enabledBorder: const UnderlineInputBorder(
