@@ -1,10 +1,36 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/detail/favoriate.dart';
 import 'package:flutter_application_1/screens/detail/profile.dart';
 import 'package:flutter_application_1/screens/intro/login.dart';
 
-class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({super.key});
+class CustomDrawer extends StatefulWidget {
+  @override
+  _CustomDrawerState createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  String _profileImageUrl = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      DocumentSnapshot userData =
+          await _firestore.collection('users').doc(user.uid).get();
+      setState(() {
+        _profileImageUrl = userData['image'] ?? '';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +100,10 @@ class CustomDrawer extends StatelessWidget {
                           ),
                           CircleAvatar(
                             radius: 30,
-                            backgroundImage:
-                                AssetImage('assets/profile_image.png'),
+                            backgroundImage: _profileImageUrl.isNotEmpty
+                                ? NetworkImage(_profileImageUrl)
+                                : AssetImage('assets/logo.png')
+                                    as ImageProvider,
                           ),
                         ],
                       ),
@@ -99,12 +127,13 @@ class CustomDrawer extends StatelessWidget {
                   Column(
                     children: [
                       IconButton(
-                          onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => FavoritePage()),
-                              ),
-                          icon: Icon(Icons.favorite_outline)),
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FavoritePage()),
+                        ),
+                        icon: Icon(Icons.favorite_outline),
+                      ),
                       Text('찜한 장소'),
                     ],
                   ),
