@@ -272,6 +272,7 @@ class ReviewList extends StatelessWidget {
 
         String userName = snapshot.data?['name'] ?? '익명';
         String userImageUrl = snapshot.data?['imageUrl'] ?? '';
+        String currentUserId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
         return Padding(
           padding: EdgeInsets.all(10),
@@ -294,12 +295,13 @@ class ReviewList extends StatelessWidget {
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () async {
-                      await doc.reference.delete();
-                    },
-                    icon: Icon(Icons.delete_outline),
-                  ),
+                  if (reviewData['userId'] == currentUserId)
+                    IconButton(
+                      onPressed: () async {
+                        await doc.reference.delete();
+                      },
+                      icon: Icon(Icons.delete_outline),
+                    ),
                 ],
               ),
               SizedBox(height: 4),

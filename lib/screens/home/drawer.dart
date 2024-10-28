@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/course/new_cos.dart';
+import 'package:flutter_application_1/screens/detail/Myreview.dart';
 import 'package:flutter_application_1/screens/detail/favoriate.dart';
 import 'package:flutter_application_1/screens/detail/profile.dart';
 import 'package:flutter_application_1/screens/intro/login.dart';
@@ -14,6 +18,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String _profileImageUrl = '';
+  final TextEditingController _nicknameController = TextEditingController();
 
   @override
   void initState() {
@@ -28,6 +33,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           await _firestore.collection('users').doc(user.uid).get();
       setState(() {
         _profileImageUrl = userData['image'] ?? '';
+        _nicknameController.text = userData['nickname'] ?? '';
       });
     }
   }
@@ -69,7 +75,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '건우',
+                                  _nicknameController.text,
                                   style: TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
@@ -118,9 +124,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Column(
+                  Column(
                     children: [
-                      Icon(Icons.work_outline),
+                      IconButton(
+                          onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => Cos()),
+                              ),
+                          icon: Icon(Icons.work_outline)),
                       Text('내 코스'),
                     ],
                   ),
@@ -149,7 +160,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ListTile(
               title: Text('나의 리뷰'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Myreview()),
+                );
               },
             ),
             ListTile(

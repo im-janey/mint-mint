@@ -12,7 +12,7 @@ class DisplayFrame extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<List<dynamic>>(
-        future: fetchRestaurants(),
+        future: fetchdisplays(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -24,13 +24,13 @@ class DisplayFrame extends StatelessWidget {
             return Center(child: Text('No data available'));
           }
 
-          return MapPage(restaurant: snapshot.data!);
+          return MapPage(display: snapshot.data!);
         },
       ),
     );
   }
 
-  Future<List<dynamic>> fetchRestaurants() async {
+  Future<List<dynamic>> fetchdisplays() async {
     const apiKey =
         'K%2Bwrqt0w3kcqkpq5TzBHI8P37Kfk50Rlz1dYzc62tM2ltmIBDY3VG4eiblr%2FQbjw1JSXZYsFQBw4IieHP9cP9g%3D%3D';
     final List<String> keywords = [
@@ -73,9 +73,9 @@ class DisplayFrame extends StatelessWidget {
 }
 
 class MapPage extends StatefulWidget {
-  final List<dynamic> restaurant;
+  final List<dynamic> display;
 
-  MapPage({super.key, required this.restaurant});
+  MapPage({super.key, required this.display});
 
   @override
   _MapPageState createState() => _MapPageState();
@@ -134,16 +134,16 @@ class _MapPageState extends State<MapPage> {
       _markers.clear();
     });
 
-    for (var restaurant in widget.restaurant) {
-      double latitude = double.parse(restaurant['mapy']);
-      double longitude = double.parse(restaurant['mapx']);
+    for (var display in widget.display) {
+      double latitude = double.parse(display['mapy']);
+      double longitude = double.parse(display['mapx']);
 
       Marker marker = Marker(
-        markerId: MarkerId(restaurant['contentid'].toString()),
+        markerId: MarkerId(display['contentid'].toString()),
         position: LatLng(latitude, longitude),
         infoWindow: InfoWindow(
-          title: restaurant['title'],
-          snippet: restaurant['addr1'],
+          title: display['title'],
+          snippet: display['addr1'],
         ),
       );
 
@@ -217,10 +217,10 @@ class _MapPageState extends State<MapPage> {
                 color: Colors.white,
                 child: ListView.builder(
                   controller: scrollController,
-                  itemCount: widget.restaurant.length,
+                  itemCount: widget.display.length,
                   itemBuilder: (context, index) {
-                    var restaurant = widget.restaurant[index];
-                    String imageUrl = restaurant['firstimage'] ?? '';
+                    var display = widget.display[index];
+                    String imageUrl = display['firstimage'] ?? '';
 
                     return ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -235,11 +235,11 @@ class _MapPageState extends State<MapPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => DetailPage(
-                              collectionName: 'restaurant',
-                              name: restaurant['title'],
-                              address: restaurant['addr1'],
+                              collectionName: 'display',
+                              name: display['title'],
+                              address: display['addr1'],
                               subname: '',
-                              id: restaurant['contentid'].toString(),
+                              id: display['contentid'].toString(),
                             ),
                           ),
                         );
@@ -272,7 +272,7 @@ class _MapPageState extends State<MapPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  restaurant['title'] ?? 'No Name',
+                                  display['title'] ?? 'No Name',
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -280,7 +280,7 @@ class _MapPageState extends State<MapPage> {
                                   ),
                                 ),
                                 Text(
-                                  restaurant['addr1'] ?? 'No Address',
+                                  display['addr1'] ?? 'No Address',
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: Colors.black,
